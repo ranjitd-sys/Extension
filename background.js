@@ -1,15 +1,16 @@
-const socket = new WebSocket("ws://localhost:8080");
 
-socket.onopen = () => {
-  console.log("Connected to external program");
-};
+chrome.runtime.onConnect.addListener((port) => {
+  console.log("Someone connected:", port.name);
 
-socket.onmessage = (event) => {
-  const msg = JSON.parse(event.data);
-  console.log("Received:", msg);
-};
+  
+  port.onMessage.addListener((message) => {
+    console.log("Message received:", message);
 
-// send back if needed
-function send(msg) {
-  socket.send(JSON.stringify(msg));
-}
+
+    port.postMessage({ reply: "Hello back!", received: message });
+  });
+
+  port.onDisconnect.addListener(() => {
+    console.log("Port disconnected");
+  });
+});
