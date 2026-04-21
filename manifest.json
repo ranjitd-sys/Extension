@@ -19,5 +19,6 @@
     }
   ],
 
-  "permissions": ["storage", "activeTab"]
+  "permissions": ["storage", "activeTab"],
+   "host_permissions": ["http://localhost:8080/*"]
 }
